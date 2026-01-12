@@ -9,6 +9,7 @@
   "author": "pankajchaudhari",
   "license": "ISC",
   "dependencies": {
+    "cors": "^2.8.5",
     "dotenv": "^17.2.3",
     "express": "^5.2.1",
     "ytdl-core-enhanced": "^2.1.0"

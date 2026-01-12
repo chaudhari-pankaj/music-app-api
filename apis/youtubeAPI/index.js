@@ -21,7 +21,7 @@ const getSearchResults = async(searchQuery,maxResults) => {
                 thumbnailURL : `${item.snippet.thumbnails.high.url}`,
             }
         });
-        return responseJSON;
+        return searchResult;
     }
     catch(error) {
         console.log(error);
