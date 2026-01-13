@@ -11,11 +11,17 @@ app.use(express.urlencoded({extended : true}));
 
 app.get('/favicon.ico', (req, res) => res.status(204).end());  
 
-app.post('/search',async (request,response) => {
-    console.log(request.body.query);
-    response.send(await getSearchResults(request.body.query,10));
+app.get('/search',async (request,response) => {
+    console.log(request.query.q);
+    response.send(await getSearchResults(request.query.q,10));
 });
 
+app.get('/thumbnail/:videoId', async (request,response) => {
+    console.log(request.body);
+    response.send('recommendations');
+})
+
+app.get('/recommendations')
 const ytdl = require('ytdl-core-enhanced');
 
 app.get('/:videoId',(request,response) => {
