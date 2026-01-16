@@ -5,7 +5,9 @@ const getSearchResults = async(searchQuery,maxResults) => {
             maxResults : maxResults,
             q : `${searchQuery}`,
             type : 'video',
+            order : 'viewCount',
             videoCategoryId : 10, //10 is for the videos having category = music
+            videoDuration : 'short',
             key : process.env.youtube_API_KEY,
         });
 

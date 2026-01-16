@@ -1,5 +1,5 @@
 const express = require('express');
-const { getSearchResults } = require('./apis/youtubeAPI');
+const { getSearchResults } = require('./apis/youtubeAPI/search');
 require('dotenv').config();
 const cors = require('cors');
 
@@ -25,10 +25,20 @@ app.get('/recommendations')
 const ytdl = require('ytdl-core-enhanced');
 
 app.get('/:videoId',(request,response) => {
+    response.writeHead(200, {
+        "content-type" : "audio/mpeg",
+        "accept-ranges" : "bytes",
+    });
     ytdl(request.params.videoId,{
         quality: 'highestaudio',
         filter : 'audioonly',
     }).pipe(response);
+});
+
+const { getVideoDetails } = require('./apis/youtubeAPI/videoDetails');
+app.get('/videoDetails/:videoId',async (request,response) => {
+    const videoDetails = await getVideoDetails(request.params.videoId);
+    response.json(videoDetails);
 });
 
 app.listen(process.env.port,() => {
