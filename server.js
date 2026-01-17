@@ -29,6 +29,19 @@ app.get('/:videoId',(request,response) => {
     }).pipe(response);
 });
 
+app.get('/download/:videoId', async(request,response) => {
+    const videoTitle = (await ytdl.getInfo(request.params.videoId)).videoDetails.title;
+    response.writeHead(200, {
+        "content-type" : "audio/mpeg",
+        "content-disposition" : `attachment; filename = ${videoTitle}`,
+        "accept-ranges" : "bytes",
+    });
+    ytdl(request.params.videoId,{
+        quality: 'highestaudio',
+        filter : 'audioonly',
+    }).pipe(response);
+});
+
 const { getVideoDetails } = require('./apis/youtubeAPI/videoDetails');
 
 app.get('/videoDetails/:videoId',async (request,response) => {
