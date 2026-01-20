@@ -1,3 +1,4 @@
+const { shuffle } = require("../../utils/shuffle");
 const { getVideoDetails } = require("./videoDetails");
 
 const getRelatedVideos = async(videoId,maxResults) => {
@@ -25,7 +26,7 @@ const getRelatedVideos = async(videoId,maxResults) => {
                 return false;
             return true;
         });
-        
+
         const relatedVideos = responseFiltered.map((item) => {
             return {
                 publishedAt : item.snippet.publishedAt.slice(0,10),
@@ -36,6 +37,8 @@ const getRelatedVideos = async(videoId,maxResults) => {
                 thumbnailURL : `${item.snippet.thumbnails.high.url}`,
             }
         });
+
+        shuffle(relatedVideos);
         
         return relatedVideos;
     }

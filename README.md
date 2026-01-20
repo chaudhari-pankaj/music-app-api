@@ -1,5 +1,11 @@
 this is the backend for a music streaming app
 
+<!-- recommendation algorithm -->
+>>v1 >> search using topicCategories
+>>v2 >> channelName + topicCategories
+>>v3 >> (channelName + topicCategories) randomized order
+        >> prevents loops if autoPlay is enabled
+        >> songs of same creator get less (by a little margin.. but anything is better than nothing) aggressively recommended
 <!-- workarounds --> 
 >>filtered shorts by detecting description not empty + doesn't contain #shorts
 >>filtered so that recommendations don't contain the current song
