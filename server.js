@@ -1,54 +1,21 @@
 const express = require('express');
-const { getSearchResults } = require('./apis/youtubeAPI/search');
-require('dotenv').config();
-const cors = require('cors');
-
 const app = express();
 
+//allow cors
+const cors = require('cors');
+require('dotenv').config();
+
+//middlewares
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({extended : true}));
 
-app.get('/favicon.ico', (req, res) => res.status(204).end());  
+//routers
+const { songRouter } = require('./routes/songRouter');
 
-app.get('/search',async (request,response) => {
-    response.send(await getSearchResults(request.query.q,10));
-});
+app.use('/song',songRouter);
 
-app.get('/recommendations')
-const ytdl = require('ytdl-core-enhanced');
-
-app.get('/:videoId',(request,response) => {
-    response.writeHead(200, {
-        "content-type" : "audio/mpeg",
-        "accept-ranges" : "bytes",
-    });
-    ytdl(request.params.videoId,{
-        quality: 'highestaudio',
-        filter : 'audioonly',
-    }).pipe(response);
-});
-
-app.get('/download/:videoId', async(request,response) => {
-    const videoTitle = (await ytdl.getInfo(request.params.videoId)).videoDetails.title;
-    response.writeHead(200, {
-        "content-type" : "audio/mpeg",
-        "content-disposition" : `attachment; filename = ${videoTitle}`,
-        "accept-ranges" : "bytes",
-    });
-    ytdl(request.params.videoId,{
-        quality: 'highestaudio',
-        filter : 'audioonly',
-    }).pipe(response);
-});
-
-const { getVideoDetails } = require('./apis/youtubeAPI/videoDetails');
-
-app.get('/videoDetails/:videoId',async (request,response) => {
-    const videoDetails = await getVideoDetails(request.params.videoId);
-    response.json(videoDetails);
-});
-
+//listen for requests
 app.listen(process.env.port,() => {
     console.log(`listening for requests on port : ${process.env.port}`)
 });

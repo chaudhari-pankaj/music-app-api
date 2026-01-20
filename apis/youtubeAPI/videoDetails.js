@@ -64,6 +64,7 @@
 
 
 const getVideoDetails = async (videoId) => {
+
     try {
         const videoParams = {
             part : 'id,snippet,topicDetails',
@@ -76,13 +77,13 @@ const getVideoDetails = async (videoId) => {
 
         const topicCategories = responseJSON.items[0].topicDetails.topicCategories.map((item) => {
             return item.slice(30);
-        }).join("%7C");
+        }).join("|");
 
         const videoDetails = {
             publishedAt : responseJSON.items[0].snippet.publishedAt.slice(0,10),
             channelId : responseJSON.items[0].snippet.channelId,
             channelTitle : responseJSON.items[0].snippet.channelTitle,
-            videoId : responseJSON.items[0].id.videoId,
+            videoId : responseJSON.items[0].id,
             videoTitle : responseJSON.items[0].snippet.title,
             thumbnailURL : responseJSON.items[0].snippet.thumbnails.high.url,
             topicCategories : topicCategories,

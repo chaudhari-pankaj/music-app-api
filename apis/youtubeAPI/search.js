@@ -1,5 +1,3 @@
-// const { response } = require("express");
-
 // const sampleResponse = {
 //   "kind": "youtube#searchListResponse",
 //   "etag": "7iIPcF7zqS3PpMXucIHSzgESdEg",
@@ -359,13 +357,13 @@ const getSearchResults = async(searchQuery,maxResults) => {
             part : 'id,snippet',
             q : `${searchQuery}`,
             type : 'video',
-            maxResults : 30,
-            order : 'viewCount',
+            maxResults : maxResults,
+            order : 'relevance',
             videoCategoryId : 10, //10 is for the videos having category = music
             videoDuration : 'short',
             key : process.env.youtube_API_KEY,
         });
-
+        
         const response = await fetch(`${process.env.youtube_API}/search?${searchParams}`);
         const responseJSON = await response.json();
 
